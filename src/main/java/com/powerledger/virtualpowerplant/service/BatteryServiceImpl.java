@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BatteryServiceImpl implements BatteryService {
@@ -29,7 +29,6 @@ public class BatteryServiceImpl implements BatteryService {
             if (Objects.nonNull(exists)) {
                 LOGGER.info("Battery {} Already exists", battery.getName());
                 LOGGER.info("Updating Battery Capacity of {} for postcode {}", battery.getName(), battery.getPostcode());
-                LOGGER.info("" + exists.getBatteryId());
                 battery.setBatteryId(exists.getBatteryId());
                 battery.setWattCapacity(exists.getWattCapacity() + battery.getWattCapacity());
                 batteryRepository.save(battery);
@@ -38,8 +37,24 @@ public class BatteryServiceImpl implements BatteryService {
             }
 
         });
-
         return batteries;
+    }
 
+    @Override
+    public Map<String, Object> getBatteries(Integer from, Integer to) {
+
+        List<Battery> batteries = batteryRepository.findByPostcodeBetween(from, to);
+        batteries.stream().sorted(Comparator.comparing(Battery::getName)).collect(Collectors.toList());
+
+
+        Double totalWattCapacity = batteries.stream().mapToDouble(battery -> battery.getWattCapacity()).sum();
+        Double avgWattCapacity = totalWattCapacity / batteries.size();
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("batteries", batteries);
+        map.put("totalWattCapacity", totalWattCapacity);
+        map.put("avgWattCapacity", avgWattCapacity);
+
+        return map;
     }
 }

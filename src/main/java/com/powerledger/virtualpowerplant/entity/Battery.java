@@ -9,6 +9,11 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Entity class for Battery
+ *
+ * @author nivi.vajravel
+ */
 @Entity
 public class Battery {
     @Id

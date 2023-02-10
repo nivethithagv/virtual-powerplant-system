@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository to Connect to H2 Database
+ * Extends JPARepository to take advantage of available methods
+ *
+ * @author nivi.vajravel
+ */
 @Repository
 public interface BatteryRepository extends JpaRepository<Battery, String> {
 

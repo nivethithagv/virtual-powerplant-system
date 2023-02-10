@@ -14,10 +14,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Global Exception Handler for the API
+ *
+ * @author nivi.vajravel
+ */
 @RestControllerAdvice
 @RestController
 public class GlobalExceptionHandler {
 
+    /**
+     * Handles Jakarta validation exceptions globally
+     *
+     * @param ex - Constraint Violation Exception thrown
+     * @return - List of Error Messages
+     */
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Map<String, List<String>>> handleValidationErrors(ConstraintViolationException ex) {
         List<String> errors = ex.getConstraintViolations()
@@ -26,6 +37,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Creates a map of Error Messages
+     *
+     * @param errors - List of Error messages
+     * @return - Map of Error Messages
+     */
     private Map<String, List<String>> getErrorsMap(List<String> errors) {
         Map<String, List<String>> errorResponse = new HashMap<>();
         errorResponse.put("errors", errors);

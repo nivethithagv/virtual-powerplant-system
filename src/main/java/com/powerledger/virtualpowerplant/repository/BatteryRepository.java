@@ -2,16 +2,14 @@ package com.powerledger.virtualpowerplant.repository;
 
 import com.powerledger.virtualpowerplant.entity.Battery;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface BatteryRepository extends JpaRepository<Battery, Long> {
+public interface BatteryRepository extends JpaRepository<Battery, String> {
 
-    public String storeBatteriesList(List<Battery> batteries);
+    public Battery save(Battery battery);
 
-    public List<Battery> findBatteriesByPostCodeRange(String fromCode, String toCode);
-
-
+  @Query("SELECT b from Battery b WHERE b.name=?1 and b.postcode=?2")
+    public Battery findByNameAndCode(String name, Integer postcode);
 }

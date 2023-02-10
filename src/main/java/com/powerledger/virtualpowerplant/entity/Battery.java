@@ -4,17 +4,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Battery {
-
-    private Long batteryId;
-    private String name;
-    private Integer postcode;
-    transient private Float wattCapacity;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long batteryId;
+    @NotBlank(message = "Name is mandatory")
+    private String name;
+
+    @Min(value = 6000, message = "Invalid Postcode. WA Postcode range is 6000 - 6997")
+    @Max(value = 6997, message = "Invalid Postcode. WA Postcode range is 6000 - 6997")
+    @NotNull(message = "Postcode is mandatory")
+    private Integer postcode;
+    private Float wattCapacity;
+
+
     public Long getBatteryId() {
         return batteryId;
     }

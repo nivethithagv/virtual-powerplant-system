@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,12 +21,12 @@ public class PowerplantController {
     private final Logger LOGGER =
             LoggerFactory.getLogger(PowerplantController.class);
 
-    @PostMapping(value = "/batteries" )
-    public String saveBatteries(@RequestBody List<Battery> batteries){
-
-        LOGGER.info("Saving {[]} Batteries" , batteries.size());
-        batteryService.saveBatteries(batteries);
-        return "Welcome to Power plant300!!";
+    @PostMapping(value = "/batteries")
+    public @ResponseBody List<Battery> saveBatteries(@RequestBody List<Battery> batteries) {
+        LOGGER.info("Saving {} Batteries", batteries.size());
+        return batteryService.saveBatteries(batteries);
     }
+
+
 
 }

@@ -29,7 +29,7 @@ public class BatteryServiceImpl implements BatteryService {
             if (Objects.nonNull(exists)) {
                 LOGGER.info("Battery {} Already exists", battery.getName());
                 LOGGER.info("Updating Battery Capacity of {} for postcode {}", battery.getName(), battery.getPostcode());
-                LOGGER.info(""+exists.getBatteryId());
+                LOGGER.info("" + exists.getBatteryId());
                 battery.setBatteryId(exists.getBatteryId());
                 battery.setWattCapacity(exists.getWattCapacity() + battery.getWattCapacity());
                 batteryRepository.save(battery);

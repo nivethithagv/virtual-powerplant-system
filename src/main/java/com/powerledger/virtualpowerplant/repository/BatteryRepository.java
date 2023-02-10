@@ -10,6 +10,6 @@ public interface BatteryRepository extends JpaRepository<Battery, String> {
 
     public Battery save(Battery battery);
 
-  @Query("SELECT b from Battery b WHERE b.name=?1 and b.postcode=?2")
+    @Query("SELECT b from Battery b WHERE b.name=?1 and b.postcode=?2")
     public Battery findByNameAndCode(String name, Integer postcode);
 }

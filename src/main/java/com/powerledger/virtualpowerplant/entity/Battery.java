@@ -67,11 +67,6 @@ public class Battery {
 
     @Override
     public String toString() {
-        return "Battery{" +
-                "batteryId=" + batteryId +
-                ", name='" + name + '\'' +
-                ", postcode=" + postcode +
-                ", wattCapacity=" + wattCapacity +
-                '}';
+        return "Battery{" + "batteryId=" + batteryId + ", name='" + name + '\'' + ", postcode=" + postcode + ", wattCapacity=" + wattCapacity + '}';
     }
 }

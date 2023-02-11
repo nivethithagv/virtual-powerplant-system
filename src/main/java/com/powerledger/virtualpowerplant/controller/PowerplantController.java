@@ -45,7 +45,7 @@ public class PowerplantController {
      *
      * @param from Post Code to search from
      * @param to   Post Code to search upto
-     * @return
+     * @return Response body with List of Batteries, total and average watt capacity
      */
     @GetMapping(value = "/getbatteries")
     public @ResponseBody Map<String, Object> getBatteries(@RequestParam @Min(6000) @Max(6997) Integer from,

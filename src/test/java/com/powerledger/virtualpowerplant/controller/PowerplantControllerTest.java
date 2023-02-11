@@ -88,7 +88,7 @@ public class PowerplantControllerTest {
         Mockito.when(batteryService.getBatteries(6001, 6002))
                 .thenReturn(response);
 
-        mockMvc.perform(get("/getbatteries?from=6001&to=6000"))
+        mockMvc.perform(get("/getbatteries?from=6001&to=6002"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalWattCapacity").value(20.0))
                 .andExpect(jsonPath("$.avgWattCapacity").value(10.0))

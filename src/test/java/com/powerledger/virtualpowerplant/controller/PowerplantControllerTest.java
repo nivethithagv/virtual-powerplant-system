@@ -88,11 +88,32 @@ public class PowerplantControllerTest {
         Mockito.when(batteryService.getBatteries(6001, 6002))
                 .thenReturn(response);
 
-        mockMvc.perform(get("/getbatteries?from=6001&to=6002"))
+        mockMvc.perform(get("/getbatteries?from=6001&to=6000"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalWattCapacity").value(20.0))
                 .andExpect(jsonPath("$.avgWattCapacity").value(10.0))
                 .andExpect(jsonPath("$.batteries").exists());
 
     }
+
+    @Test
+    void getBatteriesValidation() throws Exception {
+
+        List<Battery> outputBatteryList = Stream.of(
+                Battery.builder().name("testbattery1").batteryId(1L).postcode(6001).wattCapacity(Double.valueOf(10.0)).build(),
+                Battery.builder().name("testbattery2").batteryId(2L).postcode(6002).wattCapacity(Double.valueOf(10.0)).build()
+        ).collect(Collectors.toList());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("batteries", outputBatteryList);
+        response.put("totalWattCapacity", 20.0);
+        response.put("avgWattCapacity", 10.0);
+
+        Mockito.when(batteryService.getBatteries(6001, 6002))
+                .thenReturn(response);
+        mockMvc.perform(get("/getbatteries?from=6001&to=60000"))
+                .andExpect(status().is4xxClientError());
+    }
+
+
 }

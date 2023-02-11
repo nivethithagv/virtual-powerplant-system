@@ -1,13 +1,11 @@
 package com.powerledger.virtualpowerplant.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Entity class for Battery
@@ -15,18 +13,23 @@ import jakarta.validation.constraints.NotNull;
  * @author nivi.vajravel
  */
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Battery {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long batteryId;
     @NotBlank(message = "Name is mandatory")
+    @Size(min=1, max = 100, message = "Name length should be >0 and <100")
     private String name;
 
     @Min(value = 6000, message = "Invalid Postcode. WA Postcode range is 6000 - 6997")
     @Max(value = 6997, message = "Invalid Postcode. WA Postcode range is 6000 - 6997")
     @NotNull(message = "Postcode is mandatory")
     private Integer postcode;
-    private Float wattCapacity;
+    private Double wattCapacity;
 
 
     public Long getBatteryId() {
@@ -53,22 +56,20 @@ public class Battery {
         this.postcode = postcode;
     }
 
-    public Float getWattCapacity() {
+    public Double getWattCapacity() {
         return wattCapacity;
     }
 
-    public void setWattCapacity(Float wattCapacity) {
+    public void setWattCapacity(Double wattCapacity) {
         this.wattCapacity = wattCapacity;
     }
 
-    public Battery(String name, Integer postcode, Float wattCapacity) {
+    public Battery(String name, Integer postcode, Double wattCapacity) {
         this.name = name;
         this.postcode = postcode;
         this.wattCapacity = wattCapacity;
     }
 
-    public Battery() {
-    }
 
     @Override
     public String toString() {

@@ -8,8 +8,10 @@ The API has two endpoints
 ``POST /batteries`` Creates or Updates the List of Batteries, in the given postcode range.
 
 **Assumption 1** - Battery Name is unique within the postcode range. If same name is
-found within the postcode, the watt capacity if the battery will be added to existing capacity.
+found within the postcode, the watt capacity of the battery will be added to existing capacity.
+
 Watt Capacity must be a positive value.
+Name and Postcode are mandatory fields.
 
 
 ``GET /getbatteries?from=6000&to=6997`` Lists the Batteries for the given postcode range
@@ -35,13 +37,13 @@ Spring Boot Version - 3.0.2
 
 ``mvn clean install``
 
-**Deploy**
-
-``mvn spring-boot:run``
-
 **Test**
 
 ``mvn test``
+
+**Deploy**
+
+``mvn spring-boot:run``
 
 
 ## Postman Tests

@@ -29,6 +29,8 @@ public class Battery {
     @Max(value = 6997, message = "Invalid Postcode. WA Postcode range is 6000 - 6997")
     @NotNull(message = "Postcode is mandatory")
     private Integer postcode;
+
+    @Positive(message = "Watt Capacity cannot be Negative")
     private Double wattCapacity;
 
 

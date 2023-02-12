@@ -8,8 +8,8 @@ The API has two endpoints
 ``POST /batteries`` Creates or Updates the List of Batteries, in the given postcode range.
 
 **Assumption 1** - Battery Name is unique within the postcode range. If same name is
-found within the postcode, the watt capacity if the battery will be increased or decreased based on 
-incoming request
+found within the postcode, the watt capacity if the battery will be added to existing capacity.
+Watt Capacity must be a positive value.
 
 
 ``GET /getbatteries?from=6000&to=6997`` Lists the Batteries for the given postcode range

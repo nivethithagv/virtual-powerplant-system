@@ -1,0 +1,300 @@
+{
+	"info": {
+		"_postman_id": "69bd5ca1-d87b-4372-a3ac-77098fcd4444",
+		"name": "virtualpowerplant",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "290432"
+	},
+	"item": [
+		{
+			"name": "Post Batteries for WA",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", () => {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"name\": \"Alpha\",\r\n        \"postcode\": 6000,\r\n        \"wattCapacity\": 2\r\n    },\r\n    {\r\n        \"name\": \"Beta\",\r\n        \"postcode\": 6001,\r\n        \"wattCapacity\": 1\r\n    },\r\n    {\r\n        \"name\": \"Gamma\",\r\n        \"postcode\": 6201,\r\n        \"wattCapacity\": 1\r\n    },\r\n    {\r\n        \"name\":\"xeno\",\r\n        \"postcode\": 6204,\r\n        \"wattCapacity\": 1\r\n    },\r\n     {\r\n        \"name\":\"fatboy\",\r\n        \"postcode\": 6997,\r\n        \"wattCapacity\": 2\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/batteries",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"batteries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Batteries By Postcode Range",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", () => {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response data has all required fields\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.have.all.keys(\r",
+							"        \"avgWattCapacity\",\r",
+							"        \"batteries\",\r",
+							"        \"totalWattCapacity\"\r",
+							"    );\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/getbatteries?from=6000&to=6100",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"getbatteries"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "6000"
+						},
+						{
+							"key": "to",
+							"value": "6100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Should fail if Postcode Range is invalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", () => {\r",
+							"  pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response data has all required fields\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.errors).contains(\r",
+							"        \"must be less than or equal to 6997\"\r",
+							"    );\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/getbatteries?from=6000&to=61000",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"getbatteries"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "6000"
+						},
+						{
+							"key": "to",
+							"value": "61000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Should Fail if Name and Postcode is null",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", () => {\r",
+							"  pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response data has all required fields\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.errors).contains(\r",
+							"        \"Postcode is mandatory\",\r",
+							"        \"Name is mandatory\"\r",
+							"    );\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"wattCapacity\": 2\r\n    },\r\n    {\r\n        \"name\": \"Beta\",\r\n        \"postcode\": 6001,\r\n        \"wattCapacity\": 1\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/batteries",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"batteries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Should Fail if Name and Postcode is null Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", () => {\r",
+							"  pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response data has all required fields\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.errors).contains(\r",
+							"        \"Postcode is mandatory\",\r",
+							"        \"Name is mandatory\"\r",
+							"    );\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"wattCapacity\": 2\r\n    },\r\n    {\r\n        \"name\": \"Beta\",\r\n        \"postcode\": 6001,\r\n        \"wattCapacity\": 1\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/batteries",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"batteries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Should Fail if Postcode is not within WA Range",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", () => {\r",
+							"  pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response data has all required fields\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.errors).contains(\r",
+							"        \"Invalid Postcode. WA Postcode range is 6000 - 6997\"\r",
+							"    );\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"name\": \"Alpha\",\r\n        \"postcode\": 6998,\r\n        \"wattCapacity\": 2\r\n    },\r\n    {\r\n        \"name\": \"Beta\",\r\n        \"postcode\": 6001,\r\n        \"wattCapacity\": -2.0\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/batteries",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"batteries"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

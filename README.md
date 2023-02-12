@@ -39,6 +39,18 @@ Spring Boot Version - 3.0.2
 
 ``mvn spring-boot:run``
 
+**Test**
+
+``mvn test``
+
+
+## Postman Tests
+
+Postman collection can be imported and tests can be run as a collection
+[
+src/test/postman/virtualpowerplant.postman_collection.json](src/test/postman/virtualpowerplant.postman_collection.json)
+
+
 ## H2 Database console enabled
 
 Database connection details can be found in application.properties file
